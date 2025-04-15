@@ -17,6 +17,6 @@ public class Couleur {
 	@Column(name = "COLOR_ID")
 	private Integer id;
 	
-	@Column(name = "NAME", length = 250, unique = true, nullable = false)
+	@Column(name = "NAME", length = 250, unique = false, nullable = false)
 	private String nom;
 }

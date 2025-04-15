@@ -12,4 +12,10 @@ public interface BouteilleService {
 	List<Bouteille> chargerBouteillesParRegion(int idRegion);
 
 	List<Bouteille> chargerBouteillesParCouleur(int idCouleur);
+
+	Bouteille enregistrerBouteille(Bouteille bouteille) throws BllException;
+
+	Bouteille modifierBouteille(int id, Bouteille bouteille) throws BllException;
+
+	void supprimerBouteille(int idBouteille) throws BllException;
 }

@@ -2,6 +2,7 @@ package fr.eni.cave.api;
 
 import fr.eni.cave.bll.BouteilleServiceImpl;
 import fr.eni.cave.bo.vin.Bouteille;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,23 +60,31 @@ public class BouteilleController {
     }
 
     @PostMapping
-    public ResponseEntity saveBouteille(@RequestBody Bouteille bouteille) {
+    public ResponseEntity saveBouteille(@Valid @RequestBody Bouteille bouteille) {
         try {
             Bouteille savedBouteille = bouteilleService.enregistrerBouteille(bouteille);
             return new ResponseEntity<>(savedBouteille, HttpStatus.CREATED);
         } catch (Exception e) {
-            System.out.println("Erreur lors de l'enregistrement de la bouteille : " + e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteBouteille(@PathVariable int id) {
         try {
             bouteilleService.supprimerBouteille(id);
             return ResponseEntity.ok("Bouteille supprimée avec succès");
         } catch (Exception e) {
-            System.out.println("Erreur lors de la suppression de la bouteille : " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateBouteille(@PathVariable int id, @Valid @RequestBody Bouteille bouteille) {
+        try {
+            Bouteille updatedBouteille = bouteilleService.modifierBouteille(id, bouteille);
+            return new ResponseEntity<>(updatedBouteille, HttpStatus.OK);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }

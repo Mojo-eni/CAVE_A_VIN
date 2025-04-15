@@ -90,38 +90,53 @@ public class BouteilleServiceImpl implements BouteilleService {
 		throw new RuntimeException("Aucune couleur de vin ne correspond");
 	}
 
-	public Bouteille enregistrerBouteille(Bouteille bouteille) {
+	public Bouteille enregistrerBouteille(Bouteille bouteille) throws BllException {
 		// Validation de la bouteille
 		if (bouteille == null) {
-			throw new RuntimeException("La bouteille est nulle");
+			throw new BllException("La bouteille est nulle");
 		}
 
 		if (bouteille.getNom() == null || bouteille.getNom().isEmpty()) {
-			throw new RuntimeException("Le nom de la bouteille est vide");
+			throw new BllException("Le nom de la bouteille est vide", bouteille);
 		}
 
 		if (bouteille.getRegion() == null) {
-			throw new RuntimeException("La région de la bouteille est nulle");
+			throw new BllException("La région de la bouteille est nulle", bouteille);
 		}
 
 		if (bouteille.getCouleur() == null) {
-			throw new RuntimeException("La couleur de la bouteille est nulle");
+			throw new BllException("La couleur de la bouteille est nulle", bouteille);
 		}
 
 		return bRepository.save(bouteille);
 	}
 
-	public void supprimerBouteille(int id) {
+	public Bouteille modifierBouteille(int id, Bouteille bouteille) throws BllException {
 		// Validation de l'identifiant
 		if (id <= 0) {
-			throw new RuntimeException("Identifiant n'existe pas");
+			throw new BllException("Identifiant n'existe pas");
+		}
+		final Optional<Bouteille> opt = bRepository.findById(id);
+		if (opt.isPresent()) {
+			bouteille.setId(id);
+			bRepository.save(bouteille);
+		} else {
+			throw new BllException("Aucune bouteille ne correspond", bouteille);
+		}
+		return bouteille;
+	}
+
+	public void supprimerBouteille(int id) throws BllException {
+		// Validation de l'identifiant
+		if (id <= 0) {
+			throw new BllException("Identifiant n'existe pas");
 		}
 
 		final Optional<Bouteille> opt = bRepository.findById(id);
 		if (opt.isPresent()) {
 			bRepository.delete(opt.get());
 		} else {
-			throw new RuntimeException("Aucune bouteille ne correspond");
+			throw new BllException("Aucune bouteille ne correspond");
 		}
 	}
 }
