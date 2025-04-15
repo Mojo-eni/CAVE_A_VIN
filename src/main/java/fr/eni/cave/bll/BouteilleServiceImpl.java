@@ -89,4 +89,39 @@ public class BouteilleServiceImpl implements BouteilleService {
 		// Identifiant correspond à aucun enregistrement en base
 		throw new RuntimeException("Aucune couleur de vin ne correspond");
 	}
+
+	public Bouteille enregistrerBouteille(Bouteille bouteille) {
+		// Validation de la bouteille
+		if (bouteille == null) {
+			throw new RuntimeException("La bouteille est nulle");
+		}
+
+		if (bouteille.getNom() == null || bouteille.getNom().isEmpty()) {
+			throw new RuntimeException("Le nom de la bouteille est vide");
+		}
+
+		if (bouteille.getRegion() == null) {
+			throw new RuntimeException("La région de la bouteille est nulle");
+		}
+
+		if (bouteille.getCouleur() == null) {
+			throw new RuntimeException("La couleur de la bouteille est nulle");
+		}
+
+		return bRepository.save(bouteille);
+	}
+
+	public void supprimerBouteille(int id) {
+		// Validation de l'identifiant
+		if (id <= 0) {
+			throw new RuntimeException("Identifiant n'existe pas");
+		}
+
+		final Optional<Bouteille> opt = bRepository.findById(id);
+		if (opt.isPresent()) {
+			bRepository.delete(opt.get());
+		} else {
+			throw new RuntimeException("Aucune bouteille ne correspond");
+		}
+	}
 }
