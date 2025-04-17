@@ -10,3 +10,12 @@ spring:
     show-sql: true
     hibernate: 
       ddl-auto: create
+
+  #i18n
+  messages:
+    encoding: UTF-8
+
+#Option log
+logging:
+  level:
+    sql:  debug

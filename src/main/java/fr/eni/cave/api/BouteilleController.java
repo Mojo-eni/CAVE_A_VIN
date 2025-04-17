@@ -3,6 +3,7 @@ package fr.eni.cave.api;
 import fr.eni.cave.bll.BouteilleServiceImpl;
 import fr.eni.cave.bo.vin.Bouteille;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/caveavin/bouteilles")
 public class BouteilleController {
@@ -24,6 +26,7 @@ public class BouteilleController {
     public ResponseEntity<List<Bouteille>> getAllBouteilles() {
         List<Bouteille> bouteilles = bouteilleService.chargerToutesBouteilles();
         if (bouteilles != null) {
+            log.info("Nombre de bouteilles : {}", bouteilles.size());
             return ResponseEntity.of(Optional.of(bouteilles));
         }
         return ResponseEntity.noContent().build();
