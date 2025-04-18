@@ -50,6 +50,7 @@ public class SecurityConfig {
                      .requestMatchers(HttpMethod.GET, "/caveavin/bouteilles/**").hasAnyRole("CLIENT", "OWNER")
                      .requestMatchers(HttpMethod.POST, "/caveavin/bouteilles").hasRole("OWNER")
                      .requestMatchers(HttpMethod.PUT, "/caveavin/bouteilles/**").hasRole("OWNER")
+                     .requestMatchers(HttpMethod.POST, "/caveavin/bouteilles/**").hasRole("CLIENT")
                      //PANIERS
                      .requestMatchers(HttpMethod.GET, "/caveavin/paniers/**").hasAnyRole("CLIENT", "OWNER")
                      .requestMatchers(HttpMethod.PUT, "/caveavin/paniers/**").hasRole("CLIENT")

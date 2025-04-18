@@ -14,7 +14,6 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @Builder
-
 @Entity
 @Table(name = "CAV_BOTTLE")
 public class Bouteille {
